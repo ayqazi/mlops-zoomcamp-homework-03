@@ -22,7 +22,8 @@ blocks:
   configuration:
     file_source:
       path: homework_03/transformers/prepare.py
-  downstream_blocks: []
+  downstream_blocks:
+  - train
   executor_config: null
   executor_type: local_python
   has_callback: false
@@ -35,6 +36,43 @@ blocks:
   upstream_blocks:
   - ingest
   uuid: prepare
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    file_source:
+      path: homework_03/transformers/train.py
+  downstream_blocks:
+  - export
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: train
+  retry_config: null
+  status: executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - prepare
+  uuid: train
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    file_source:
+      path: homework_03/data_exporters/export.py
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: export
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - train
+  uuid: export
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
@@ -46,7 +84,7 @@ executor_config: {}
 executor_count: 1
 executor_type: null
 extensions: {}
-name: data_preparation
+name: train
 notification_config: {}
 remote_variables_dir: null
 retry_config: {}
@@ -56,6 +94,6 @@ settings:
 spark_config: {}
 tags: []
 type: python
-uuid: data_preparation
+uuid: train
 variables_dir: /home/src/mage_data/homework_03
 widgets: []

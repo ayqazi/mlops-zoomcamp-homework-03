@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
 
 @transformer
 def transform(df, *args, **kwargs):
@@ -13,4 +14,13 @@ def transform(df, *args, **kwargs):
     categorical = ['PULocationID', 'DOLocationID']
     df[categorical] = df[categorical].astype(str)
     
-    return df
+    dv = DictVectorizer()
+
+    categorical = ['PULocationID', 'DOLocationID']
+    dicts = df[categorical].to_dict(orient='records')
+    X = dv.fit_transform(dicts)
+
+    target = 'duration'
+    y = df.duration
+
+    return X, y, dv
